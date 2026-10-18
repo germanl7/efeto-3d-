@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080816">
+  <meta name="description" content="EFECTO 3D — laboratorio interactivo de animaciones CSS, neón, partículas y efectos holográficos.">
+  <title>EFECTO 3D — Universo de Animaciones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <div class="scanlines" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Efecto 3D inicio"><span class="brand-mark">✦</span><span>EFECTO<span class="brand-accent">3D</span></span></a>
+    <nav class="nav-links" aria-label="Navegación principal">
+      <a href="#galeria">Galería</a><a href="#laboratorio">Laboratorio</a><a href="#acerca">Tecnología</a>
+    </nav>
+    <button class="sound-toggle" id="motion-toggle" type="button" aria-pressed="false"><span class="status-dot"></span> <span id="motion-label">EFECTOS ACTIVOS</span></button>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+  </header>
+
+  <main>
+    <section class="hero section-wrap" id="inicio">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> LABORATORIO VISUAL INTERACTIVO <span class="live-pill">EN VIVO</span></div>
+        <h1 class="hero-title" data-text="ROMPE LA">ROMPE LA<br><span class="gradient-text">DIMENSIÓN</span></h1>
+        <p class="hero-description">Explora un universo de luces, profundidad y movimiento. Cada elemento reacciona contigo. No es solo una página: es un laboratorio de efectos visuales.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="#galeria">Explorar efectos <span>↗</span></a><a class="btn btn-ghost" href="#laboratorio"><span class="play-icon">▶</span> Crear mi estilo</a></div>
+        <div class="hero-stats"><div><strong>12<span>+</span></strong><small>EFECTOS VISUALES</small></div><i></i><div><strong>3D</strong><small>PROFUNDIDAD REAL</small></div><i></i><div><strong>∞</strong><small>COMBINACIONES</small></div></div>
+      </div>
+      <div class="hero-visual" aria-label="Figura geométrica 3D animada">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div>
+        <div class="orbit-label label-top">RENDER / 001</div><div class="orbit-label label-bottom">DEPTH ENGINE <span>● ONLINE</span></div>
+        <div class="cube-scene"><div class="cube"><span class="face front">3D</span><span class="face back">FX</span><span class="face right">✦</span><span class="face left">✧</span><span class="face top">CORE</span><span class="face bottom">CORE</span></div></div>
+        <div class="energy-ring"></div><div class="floating-chip chip-one">✦ NEON CORE</div><div class="floating-chip chip-two">◈ 60 FPS</div>
+      </div>
+      <div class="hero-bottom-line"><span>DESPLÁZATE PARA DESCUBRIR</span><span class="scroll-cue">↓</span><span>DISEÑADO PARA EXPERIMENTAR</span></div>
+    </section>
+
+    <section class="section-wrap gallery-section" id="galeria">
+      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> COLECCIÓN VISUAL / 01</div><h2>Un mundo de <span class="gradient-text">efectos.</span></h2></div><p>Interacciones pequeñas. Impacto enorme.<br>Prueba cada tarjeta con el cursor.</p></div>
+      <div class="effect-grid">
+        <article class="effect-card card-nebula"><div class="card-top"><span>FX / 001</span><span class="card-tag">ATMÓSFERA</span></div><div class="nebula-art"><div class="nebula-core"></div><div class="nebula-orbit"></div><div class="nebula-stars">✦　·　✧　·　✦</div></div><div class="card-info"><div><h3>Nebulosa viva</h3><p>Resplandor multicapa y aura dinámica</p></div><span class="card-arrow">↗</span></div></article>
+        <article class="effect-card card-prism"><div class="card-top"><span>FX / 002</span><span class="card-tag">GEOMETRÍA</span></div><div class="prism-art"><div class="prism"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="prism-floor"></div></div><div class="card-info"><div><h3>Prisma holográfico</h3><p>Vidrio iridiscente y refracción de color</p></div><span class="card-arrow">↗</span></div></article>
+        <article class="effect-card card-glitch"><div class="card-top"><span>FX / 003</span><span class="card-tag">TIPOGRAFÍA</span></div><div class="glitch-art"><span class="glitch-word" data-text="GLITCH">GLITCH</span><div class="glitch-bars"><i></i><i></i><i></i><i></i></div></div><div class="card-info"><div><h3>Glitch digital</h3><p>Distorsión cromática y señal rota</p></div><span class="card-arrow">↗</span></div></article>
+        <article class="effect-card card-waves"><div class="card-top"><span>FX / 004</span><span class="card-tag">ONDAS</span></div><div class="waves-art"><div class="wave-ring"></div><div class="wave-ring"></div><div class="wave-ring"></div><div class="wave-core">◉</div></div><div class="card-info"><div><h3>Ondas de energía</h3><p>Pulsos luminosos que se expanden</p></div><span class="card-arrow">↗</span></div></article>
+        <article class="effect-card card-portal"><div class="card-top"><span>FX / 005</span><span class="card-tag">PORTAL</span></div><div class="portal-art"><div class="portal-rim"></div><div class="portal-center"></div><span class="portal-spark">✦</span></div><div class="card-info"><div><h3>Portal dimensional</h3><p>Anillos rotatorios y núcleo de luz</p></div><span class="card-arrow">↗</span></div></article>
+        <article class="effect-card card-matrix"><div class="card-top"><span>FX / 006</span><span class="card-tag">PARTÍCULAS</span></div><div class="matrix-art"><span>01</span><span>10</span><span>11</span><span>01</span><span>10</span><span>11</span><b>DATA<br>FLOW</b></div><div class="card-info"><div><h3>Data flow</h3><p>Campo digital y movimiento continuo</p></div><span class="card-arrow">↗</span></div></article>
+      </div>
+    </section>
+
+    <section class="lab-section" id="laboratorio">
+      <div class="section-wrap">
+        <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> CONTROL CREATIVO / 02</div><h2>Tu estilo. <span class="gradient-text">Tus reglas.</span></h2></div><p>Ajusta los parámetros y observa cómo cambia el universo en tiempo real.</p></div>
+        <div class="lab-layout">
+          <div class="lab-preview" id="lab-preview"><div class="preview-grid"></div><div class="preview-orbit preview-orbit-a"></div><div class="preview-orbit preview-orbit-b"></div><div class="preview-object" id="preview-object"><span>FX</span></div><div class="preview-caption"><span>VISTA PREVIA EN VIVO</span><strong id="preview-style-name">NEON CYBER</strong></div><div class="preview-crosshair">+</div></div>
+          <div class="control-panel">
+            <div class="panel-heading"><span class="panel-icon">⌘</span><div><h3>Creative Lab</h3><p>PERSONALIZA TU EXPERIENCIA</p></div><span class="panel-live"><i></i> LIVE</span></div>
+            <div class="control-group"><div class="control-label"><label for="color-choice">Paleta de energía</label><span id="color-name">Cian eléctrico</span></div><div class="color-options"><button class="color-dot active" data-color="#55f6ff" data-name="Cian eléctrico" style="--swatch:#55f6ff" aria-label="Cian eléctrico"></button><button class="color-dot" data-color="#b46cff" data-name="Violeta cósmico" style="--swatch:#b46cff" aria-label="Violeta cósmico"></button><button class="color-dot" data-color="#ff4fba" data-name="Rosa plasma" style="--swatch:#ff4fba" aria-label="Rosa plasma"></button><button class="color-dot" data-color="#74ff9a" data-name="Verde láser" style="--swatch:#74ff9a" aria-label="Verde láser"></button><button class="color-dot" data-color="#ffb454" data-name="Ámbar solar" style="--swatch:#ffb454" aria-label="Ámbar solar"></button></div></div>
+            <div class="control-group"><div class="control-label"><label for="speed-control">Velocidad de animación</label><output id="speed-value">1.0×</output></div><input id="speed-control" type="range" min="0.3" max="2.5" value="1" step="0.1"></div>
+            <div class="control-group"><div class="control-label"><label for="intensity-control">Intensidad del brillo</label><output id="intensity-value">75%</output></div><input id="intensity-control" type="range" min="20" max="100" value="75" step="5"></div>
+            <div class="control-group"><div class="control-label"><span>Modo de visualización</span></div><div class="style-options"><button class="style-option active" data-style="cyber">⌁ Cyber</button><button class="style-option" data-style="orbit">◎ Orbit</button><button class="style-option" data-style="pulse">ϟ Pulse</button></div></div>
+            <div class="control-actions"><button class="btn btn-primary btn-full" id="randomize-btn">✦ Generar combinación</button><button class="reset-btn" id="reset-btn">↺ Restablecer valores</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-wrap feature-section" id="acerca">
+      <div class="eyebrow"><span class="eyebrow-line"></span> DETRÁS DE LA MAGIA / 03</div><div class="feature-heading"><h2>Movimiento con<br><span class="gradient-text">personalidad.</span></h2><p>Construido con CSS, JavaScript y un canvas de partículas. Sin instalaciones, sin frameworks pesados: abre y explora.</p></div>
+      <div class="feature-row"><div class="feature-item"><span class="feature-number">01</span><div class="feature-symbol">◈</div><h3>Profundidad 3D</h3><p>Perspectiva, rotación y geometría que crea sensación de volumen.</p></div><div class="feature-item"><span class="feature-number">02</span><div class="feature-symbol">✧</div><h3>Luz dinámica</h3><p>Capas de neón, halos y gradientes que dan vida a cada superficie.</p></div><div class="feature-item"><span class="feature-number">03</span><div class="feature-symbol">⌁</div><h3>Respuesta real</h3><p>Los controles y las tarjetas reaccionan al cursor y a tus decisiones.</p></div><div class="feature-item"><span class="feature-number">04</span><div class="feature-symbol">▤</div><h3>Listo para móvil</h3><p>Diseño adaptable para disfrutarlo en computador, tableta o celular.</p></div></div>
+    </section>
+    <section class="final-cta section-wrap"><div class="cta-orb"></div><div class="eyebrow"><span class="eyebrow-line"></span> FIN DEL RECORRIDO. INICIO DE TU CREATIVIDAD.</div><h2>¿Listo para crear<br><span class="gradient-text">algo increíble?</span></h2><a class="btn btn-primary" href="#laboratorio">Entrar al laboratorio <span>↗</span></a></section>
+  </main>
+  <footer class="footer"><a class="brand" href="#inicio"><span class="brand-mark">✦</span><span>EFECTO<span class="brand-accent">3D</span></span></a><p>UN UNIVERSO DE MOVIMIENTO Y LUZ.</p><span class="footer-copy">© <span id="year"></span> EFECTO 3D · HECHO PARA EXPLORAR</span></footer>
+  <button class="back-top" id="back-top" aria-label="Volver arriba">↑</button>
+</body>
+</html>
