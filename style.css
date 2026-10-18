@@ -52,3 +52,8 @@ body.motion-paused *,body.motion-paused *::before,body.motion-paused *::after{an
 @keyframes play-glitch{0%,100%{translate:0}25%{translate:2px -1px}50%{translate:-2px 1px}75%{translate:1px 0}}
 @media(max-width:850px){.playground-layout{grid-template-columns:1fr}.playground-stage{min-height:420px}.playground-controls{padding:18px}}
 @media(max-width:650px){.playground-section{padding:70px 0}.playground-stage{min-height:330px}.editable-shape{width:150px;height:150px}.editable-shape.shape-card{width:190px;height:125px}.editable-shape.shape-diamond{width:120px;height:120px}.code-heading{align-items:flex-start}.code-heading>div{padding-top:10px}.code-panel pre{font-size:10px}}
+
+
+/* Preserve each selected shape while rotating it in 3D */
+@keyframes playground-spin{from{rotate:y 0deg}to{rotate:y 360deg}}
+#editable-image{z-index:3}
