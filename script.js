@@ -208,6 +208,157 @@
     root.style.setProperty("--pointer-page-y", event.clientY + "px");
   }, { passive: true });
 
+  // Interactive Playground: editable text, shapes, image filters, and CSS export.
+  const playground = document.getElementById("playground-stage");
+  const shape = document.getElementById("editable-shape");
+  const textPreview = document.getElementById("editable-text");
+  const textInput = document.getElementById("edit-text");
+  const shapeSelect = document.getElementById("edit-shape");
+  const effectSelect = document.getElementById("edit-effect");
+  const editColor = document.getElementById("edit-color");
+  const editSize = document.getElementById("edit-size");
+  const editRotation = document.getElementById("edit-rotation");
+  const editGlow = document.getElementById("edit-glow");
+  const imageUpload = document.getElementById("image-upload");
+  const imageZoom = document.getElementById("image-zoom");
+  const imageSaturate = document.getElementById("image-saturate");
+  const cssOutput = document.getElementById("generated-css");
+  let uploadedImage = null;
+
+  function playgroundSettings() {
+    return {
+      text: textInput?.value || "TU TEXTO",
+      shape: shapeSelect?.value || "cube",
+      effect: effectSelect?.value || "neon",
+      color: editColor?.value || "#55f6ff",
+      size: Number(editSize?.value || 24),
+      rotation: Number(editRotation?.value || 1),
+      glow: Number(editGlow?.value || 70),
+      zoom: Number(imageZoom?.value || 100),
+      saturate: Number(imageSaturate?.value || 120)
+    };
+  }
+
+  function updatePlayground() {
+    if (!shape || !textPreview) return;
+    const s = playgroundSettings();
+    textPreview.textContent = s.text.trim() || "TU TEXTO";
+    shape.classList.remove("shape-cube", "shape-card", "shape-sphere", "shape-diamond",
+      "effect-neon", "effect-gradient", "effect-glitch", "effect-plain");
+    shape.classList.add("shape-" + s.shape, "effect-" + s.effect);
+    shape.style.setProperty("--edit-color", s.color);
+    shape.style.setProperty("--edit-size", s.size + "px");
+    shape.style.setProperty("--rotation-speed", String(Math.max(.25, s.rotation || .25)));
+    shape.style.animationDuration = s.rotation === 0 ? "0s" : (9 / s.rotation) + "s";
+    shape.style.boxShadow = "0 0 " + Math.round(s.glow * .55) + "px " + s.color + ", inset 0 0 " + Math.round(s.glow * .35) + "px " + s.color + "44";
+    shape.style.borderColor = s.color;
+    shape.style.color = s.color;
+    document.getElementById("edit-size-value").textContent = s.size + " px";
+    document.getElementById("edit-rotation-value").textContent = s.rotation + "×";
+    document.getElementById("edit-glow-value").textContent = s.glow + "%";
+    let image = document.getElementById("editable-image");
+    if (uploadedImage && !image) {
+      image = document.createElement("img");
+      image.id = "editable-image";
+      image.alt = "Imagen cargada para previsualizar efectos";
+      playground?.appendChild(image);
+    }
+    if (image) {
+      image.hidden = !uploadedImage;
+      if (uploadedImage) image.src = uploadedImage;
+      image.style.transform = "scale(" + (s.zoom / 100) + ")";
+      image.style.filter = "saturate(" + (s.saturate / 100) + ") drop-shadow(0 0 " + Math.round(s.glow / 5) + "px " + s.color + ")";
+    }
+    const animation = s.rotation === 0 ? "none" : "playground-spin " + (9 / s.rotation).toFixed(2) + "s linear infinite";
+    const textStyle = s.effect === "gradient"
+      ? "background:linear-gradient(90deg," + s.color + ",#bb86fc,#ff79c6);-webkit-background-clip:text;background-clip:text;color:transparent;"
+      : s.effect === "glitch"
+        ? "text-shadow:2px 0 #ff3da7,-2px 0 #37f6ff,0 0 16px currentColor;"
+        : s.effect === "plain" ? "text-shadow:none;" : "text-shadow:0 0 12px currentColor;";
+    const radius = s.shape === "sphere" ? "50%" : s.shape === "card" ? "18px" : "4px";
+    cssOutput.textContent = ".mi-diseno {\n" +
+      "  width: " + (s.shape === "card" ? "230px" : s.shape === "diamond" ? "150px" : "190px") + ";\n" +
+      "  height: " + (s.shape === "card" ? "150px" : s.shape === "diamond" ? "150px" : "190px") + ";\n" +
+      "  display: grid; place-items: center;\n" +
+      "  color: " + s.color + ";\n" +
+      "  font-size: " + s.size + "px;\n" +
+      "  border: 1px solid " + s.color + ";\n" +
+      "  border-radius: " + radius + ";\n" +
+      "  box-shadow: 0 0 " + Math.round(s.glow * .55) + "px " + s.color + ";\n" +
+      "  transform-style: preserve-3d;\n" +
+      "  animation: " + animation + ";\n" +
+      "  " + textStyle + "\n}";
+    if (s.shape === "diamond") cssOutput.textContent += "\n/* Para un diamante, añade: transform: rotate(45deg); */";
+  }
+
+  [textInput, shapeSelect, effectSelect, editColor, editSize, editRotation, editGlow, imageZoom, imageSaturate]
+    .filter(Boolean).forEach(control => control.addEventListener("input", updatePlayground));
+  imageUpload?.addEventListener("change", () => {
+    const file = imageUpload.files && imageUpload.files[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      document.getElementById("copy-status").textContent = "Elige un archivo de imagen válido.";
+      return;
+    }
+    if (uploadedImage && uploadedImage.startsWith("blob:")) URL.revokeObjectURL(uploadedImage);
+    uploadedImage = URL.createObjectURL(file);
+    playground?.classList.add("has-image");
+    updatePlayground();
+    document.getElementById("copy-status").textContent = "Imagen cargada. Los efectos se aplican en la vista previa.";
+  });
+  document.getElementById("copy-css")?.addEventListener("click", async () => {
+    const css = cssOutput?.textContent || "";
+    const status = document.getElementById("copy-status");
+    try {
+      await navigator.clipboard.writeText(css);
+      status.textContent = "¡CSS copiado! Ya puedes pegarlo en tu proyecto.";
+    } catch (_) {
+      const area = document.createElement("textarea");
+      area.value = css;
+      area.setAttribute("readonly", "");
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      const copied = document.execCommand("copy");
+      area.remove();
+      status.textContent = copied ? "¡CSS copiado! Ya puedes pegarlo en tu proyecto." : "Selecciona y copia el código que aparece arriba.";
+    }
+  });
+  document.getElementById("play-reset")?.addEventListener("click", () => {
+    textInput.value = "TU TEXTO";
+    shapeSelect.value = "cube";
+    effectSelect.value = "neon";
+    editColor.value = "#55f6ff";
+    editSize.value = "24";
+    editRotation.value = "1";
+    editGlow.value = "70";
+    imageZoom.value = "100";
+    imageSaturate.value = "120";
+    imageUpload.value = "";
+    if (uploadedImage && uploadedImage.startsWith("blob:")) URL.revokeObjectURL(uploadedImage);
+    uploadedImage = null;
+    playground?.classList.remove("has-image");
+    const image = document.getElementById("editable-image");
+    if (image) image.remove();
+    updatePlayground();
+    document.getElementById("copy-status").textContent = "Valores reiniciados. ¡Crea algo nuevo!";
+  });
+  document.getElementById("play-download")?.addEventListener("click", () => {
+    const s = playgroundSettings();
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600"><defs><radialGradient id="bg"><stop stop-color="' + s.color + '" stop-opacity=".22"/><stop offset="1" stop-color="#090914"/></radialGradient><filter id="glow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="900" height="600" fill="#090914"/><rect width="900" height="600" fill="url(#bg)"/><g fill="none" stroke="' + s.color + '" stroke-opacity=".22">' + Array.from({length:19},(_,i)=>'<path d="M0 ' + (i*34) + 'H900"/>').join("") + Array.from({length:28},(_,i)=>'<path d="M' + (i*34) + ' 0V600"/>').join("") + '</g><text x="450" y="310" text-anchor="middle" font-family="Arial,sans-serif" font-size="' + Math.min(s.size*2,100) + '" font-weight="bold" fill="' + s.color + '" filter="url(#glow)">' + s.text.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])) + '</text><text x="450" y="555" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" fill="#8888aa">EFECTO 3D · MI CREACIÓN</text></svg>';
+    const url = URL.createObjectURL(new Blob([svg], {type:"image/svg+xml;charset=utf-8"}));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "mi-diseno-efecto-3d.svg";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+    document.getElementById("copy-status").textContent = "Tu diseño SVG se está guardando.";
+  });
+  updatePlayground();
+
   resizeCanvas();
   if (!reducedMotion) restartParticles();
   else drawParticles();
