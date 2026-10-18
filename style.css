@@ -57,3 +57,9 @@ body.motion-paused *,body.motion-paused *::before,body.motion-paused *::after{an
 /* Preserve each selected shape while rotating it in 3D */
 @keyframes playground-spin{from{rotate:y 0deg}to{rotate:y 360deg}}
 #editable-image{z-index:3}
+
+
+/* Gallery arrows are real editor buttons */
+.card-edit-button{appearance:none;cursor:pointer;font:inherit;display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:50%;border:1px solid rgba(var(--accent-rgb),.32);background:rgba(var(--accent-rgb),.07);color:var(--accent);transition:transform .2s,background .2s,box-shadow .2s}
+.card-edit-button:hover,.card-edit-button:focus-visible{transform:translate(2px,-2px) scale(1.08);background:rgba(var(--accent-rgb),.17);box-shadow:0 0 18px rgba(var(--accent-rgb),.22);outline:none}
+#playground{scroll-margin-top:95px}
