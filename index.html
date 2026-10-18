@@ -72,6 +72,33 @@
       </div>
     </section>
 
+
+    <section class="playground-section" id="playground">
+      <div class="section-wrap">
+        <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> TALLER INTERACTIVO / 03</div><h2>Crea. Edita. <span class="gradient-text">Experimenta.</span></h2></div><p>Todo lo que cambies aquí se refleja al instante. ¡Prueba sin miedo!</p></div>
+        <div class="playground-layout">
+          <div class="playground-stage" id="playground-stage">
+            <div class="playground-grid"></div>
+            <div class="editable-shape shape-cube" id="editable-shape"><span id="editable-text">TU TEXTO</span></div>
+            <div class="playground-hint">VISTA PREVIA EN VIVO · EDITA LOS CONTROLES</div>
+          </div>
+          <div class="playground-controls">
+            <div class="panel-heading"><span class="panel-icon">✎</span><div><h3>Mi creador 3D</h3><p>CAMBIOS EN TIEMPO REAL</p></div><span class="panel-live"><i></i> LIVE</span></div>
+            <div class="control-group"><div class="control-label"><label for="edit-text">Tu texto</label><span>EDITABLE</span></div><input class="play-input" id="edit-text" type="text" maxlength="32" value="TU TEXTO" placeholder="Escribe tus letras"></div>
+            <div class="control-group"><div class="control-label"><label for="edit-shape">Forma</label></div><select class="play-select" id="edit-shape"><option value="cube">Cubo 3D</option><option value="card">Cuadro</option><option value="sphere">Esfera</option><option value="diamond">Diamante</option></select></div>
+            <div class="control-group"><div class="control-label"><label for="edit-effect">Efecto de texto</label></div><select class="play-select" id="edit-effect"><option value="neon">Neón brillante</option><option value="gradient">Degradado de colores</option><option value="glitch">Glitch digital</option><option value="plain">Texto sencillo</option></select></div>
+            <div class="control-group"><div class="control-label"><label for="edit-color">Color principal</label><input id="edit-color" type="color" value="#55f6ff" aria-label="Elegir color"></div></div>
+            <div class="control-group"><div class="control-label"><label for="edit-size">Tamaño del texto</label><output id="edit-size-value">24 px</output></div><input id="edit-size" type="range" min="12" max="52" value="24"></div>
+            <div class="control-group"><div class="control-label"><label for="edit-rotation">Giro 3D</label><output id="edit-rotation-value">1×</output></div><input id="edit-rotation" type="range" min="0" max="3" value="1" step="0.5"></div>
+            <div class="control-group"><div class="control-label"><label for="edit-glow">Brillo</label><output id="edit-glow-value">70%</output></div><input id="edit-glow" type="range" min="0" max="100" value="70" step="5"></div>
+            <div class="control-group"><div class="control-label"><label for="image-upload">Tu imagen (opcional)</label></div><input class="play-file" id="image-upload" type="file" accept="image/*"><div class="image-tools"><label for="image-zoom">Zoom</label><input id="image-zoom" type="range" min="80" max="150" value="100"><label for="image-saturate">Color</label><input id="image-saturate" type="range" min="0" max="200" value="120"></div></div>
+            <div class="play-actions"><button class="btn btn-primary btn-full" id="play-reset">↺ Reiniciar creador</button><button class="btn btn-ghost btn-full" id="play-download">↓ Guardar imagen de vista previa</button></div>
+          </div>
+        </div>
+        <div class="code-panel"><div class="code-heading"><div><span class="code-live-dot"></span><strong>CSS generado para tu diseño</strong></div><button class="btn btn-ghost" id="copy-css">Copiar CSS</button></div><pre><code id="generated-css">/* Tu CSS aparecerá aquí */</code></pre><p id="copy-status" aria-live="polite">Cambia los controles para generar tu estilo.</p></div>
+      </div>
+    </section>
+
     <section class="section-wrap feature-section" id="acerca">
       <div class="eyebrow"><span class="eyebrow-line"></span> DETRÁS DE LA MAGIA / 03</div><div class="feature-heading"><h2>Movimiento con<br><span class="gradient-text">personalidad.</span></h2><p>Construido con CSS, JavaScript y un canvas de partículas. Sin instalaciones, sin frameworks pesados: abre y explora.</p></div>
       <div class="feature-row"><div class="feature-item"><span class="feature-number">01</span><div class="feature-symbol">◈</div><h3>Profundidad 3D</h3><p>Perspectiva, rotación y geometría que crea sensación de volumen.</p></div><div class="feature-item"><span class="feature-number">02</span><div class="feature-symbol">✧</div><h3>Luz dinámica</h3><p>Capas de neón, halos y gradientes que dan vida a cada superficie.</p></div><div class="feature-item"><span class="feature-number">03</span><div class="feature-symbol">⌁</div><h3>Respuesta real</h3><p>Los controles y las tarjetas reaccionan al cursor y a tus decisiones.</p></div><div class="feature-item"><span class="feature-number">04</span><div class="feature-symbol">▤</div><h3>Listo para móvil</h3><p>Diseño adaptable para disfrutarlo en computador, tableta o celular.</p></div></div>
