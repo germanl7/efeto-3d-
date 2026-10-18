@@ -103,12 +103,16 @@
     restartParticles();
   }));
 
+  const animationBaseDurations = new WeakMap();
   speedInput?.addEventListener("input", () => {
     speed = Number(speedInput.value);
     document.getElementById("speed-value").textContent = speed.toFixed(1) + "×";
     root.style.setProperty("--speed", (1 / speed) + "s");
     document.querySelectorAll(".cube,.orbit,.energy-ring,.prism,.portal-rim,.preview-orbit").forEach(el => {
-      el.style.animationDuration = (parseFloat(getComputedStyle(el).animationDuration) / speed) + "s";
+      if (!animationBaseDurations.has(el)) {
+        animationBaseDurations.set(el, parseFloat(getComputedStyle(el).animationDuration) || 1);
+      }
+      el.style.animationDuration = (animationBaseDurations.get(el) / speed) + "s";
     });
   });
 
