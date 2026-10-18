@@ -359,6 +359,55 @@
   });
   updatePlayground();
 
+
+  // Each gallery arrow opens that effect in the editable Playground.
+  const galleryPresets = [
+    {name:"Nebulosa viva",text:"NEBULA",shape:"sphere",effect:"gradient",color:"#b46cff",size:26,rotation:1,glow:90},
+    {name:"Prisma holográfico",text:"PRISMA",shape:"diamond",effect:"gradient",color:"#55f6ff",size:24,rotation:1.5,glow:95},
+    {name:"Glitch digital",text:"GLITCH",shape:"card",effect:"glitch",color:"#ff4fba",size:27,rotation:1,glow:85},
+    {name:"Ondas de energía",text:"ENERGÍA",shape:"sphere",effect:"neon",color:"#74ff9a",size:22,rotation:1.5,glow:80},
+    {name:"Portal dimensional",text:"PORTAL",shape:"diamond",effect:"neon",color:"#b46cff",size:23,rotation:1,glow:100},
+    {name:"Data flow",text:"DATA FLOW",shape:"card",effect:"gradient",color:"#74ff9a",size:20,rotation:0.5,glow:75}
+  ];
+  cards.forEach((card, index) => {
+    const oldArrow = card.querySelector(".card-arrow");
+    if (!oldArrow) return;
+    const arrowButton = document.createElement("button");
+    arrowButton.type = "button";
+    arrowButton.className = "card-arrow card-edit-button";
+    arrowButton.textContent = "↗";
+    arrowButton.setAttribute("aria-label", "Editar " + (galleryPresets[index]?.name || "este efecto"));
+    arrowButton.title = "Abrir y editar este efecto";
+    oldArrow.replaceWith(arrowButton);
+    arrowButton.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      const preset = galleryPresets[index];
+      if (!preset || !textInput || !shapeSelect || !effectSelect) return;
+      textInput.value = preset.text;
+      shapeSelect.value = preset.shape;
+      effectSelect.value = preset.effect;
+      editColor.value = preset.color;
+      editSize.value = String(preset.size);
+      editRotation.value = String(preset.rotation);
+      editGlow.value = String(preset.glow);
+      if (uploadedImage && uploadedImage.startsWith("blob:")) URL.revokeObjectURL(uploadedImage);
+      uploadedImage = null;
+      if (imageUpload) imageUpload.value = "";
+      const uploadedPreview = document.getElementById("editable-image");
+      if (uploadedPreview) uploadedPreview.remove();
+      playground?.classList.remove("has-image");
+      updatePlayground();
+      const status = document.getElementById("copy-status");
+      if (status) status.textContent = preset.name + " está listo para editar. Cambia sus controles y copia el CSS cuando quieras.";
+      document.getElementById("playground")?.scrollIntoView({behavior: reducedMotion ? "auto" : "smooth",block:"start"});
+      if (textInput) {
+        textInput.focus({preventScroll:true});
+        textInput.select();
+      }
+    });
+  });
+
   resizeCanvas();
   if (!reducedMotion) restartParticles();
   else drawParticles();
