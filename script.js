@@ -412,4 +412,46 @@
   if (!reducedMotion) restartParticles();
   else drawParticles();
   window.addEventListener("resize", resizeCanvas, { passive: true });
+
+  // 3D carousel controls: rotate cards, navigate dots and pause autoplay.
+  const carouselRing = document.getElementById("carousel-ring");
+  const carouselCards = carouselRing ? Array.from(carouselRing.querySelectorAll(".carousel-card")) : [];
+  const carouselDots = Array.from(document.querySelectorAll(".carousel-dot"));
+  const carouselPrev = document.getElementById("carousel-prev");
+  const carouselNext = document.getElementById("carousel-next");
+  const carouselAuto = document.getElementById("carousel-auto");
+  let carouselIndex = 0;
+  let carouselPaused = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let carouselTimer = null;
+  const carouselStep = 360 / Math.max(carouselCards.length, 1);
+  carouselCards.forEach((card, index) => { card.style.transform = "rotateY(" + (index * carouselStep) + "deg) translateZ(285px)"; });
+  function renderCarousel() {
+    if (!carouselRing) return;
+    carouselRing.style.transform = "rotateY(" + (-carouselIndex * carouselStep) + "deg)";
+    carouselDots.forEach((dot, index) => { dot.classList.toggle("active", index === carouselIndex); dot.setAttribute("aria-current", index === carouselIndex ? "true" : "false"); });
+    carouselCards.forEach((card, index) => card.setAttribute("aria-hidden", String(index !== carouselIndex)));
+  }
+  function moveCarousel(direction) {
+    if (!carouselCards.length) return;
+    carouselIndex = (carouselIndex + direction + carouselCards.length) % carouselCards.length;
+    renderCarousel();
+  }
+  function stopCarouselTimer() { if (carouselTimer) window.clearInterval(carouselTimer); carouselTimer = null; }
+  function startCarouselTimer() {
+    stopCarouselTimer();
+    if (!carouselPaused && !reducedMotion && carouselCards.length > 1) carouselTimer = window.setInterval(() => moveCarousel(1), 3500);
+  }
+  carouselPrev?.addEventListener("click", () => { moveCarousel(-1); startCarouselTimer(); });
+  carouselNext?.addEventListener("click", () => { moveCarousel(1); startCarouselTimer(); });
+  carouselDots.forEach((dot, index) => dot.addEventListener("click", () => { carouselIndex = index; renderCarousel(); startCarouselTimer(); }));
+  carouselAuto?.addEventListener("click", () => {
+    carouselPaused = !carouselPaused;
+    carouselAuto.textContent = carouselPaused ? "▶ REPRODUCIR" : "Ⅱ PAUSAR";
+    carouselAuto.setAttribute("aria-pressed", String(!carouselPaused));
+    startCarouselTimer();
+  });
+  document.getElementById("carousel-stage")?.addEventListener("mouseenter", stopCarouselTimer);
+  document.getElementById("carousel-stage")?.addEventListener("mouseleave", startCarouselTimer);
+  renderCarousel();
+  startCarouselTimer();
 })();
